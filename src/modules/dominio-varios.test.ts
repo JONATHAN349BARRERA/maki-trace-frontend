@@ -31,6 +31,9 @@ describe('equipos', () => {
     expect(serialDesdeQR('hola mundo')).toBeNull();
     expect(rutaQR('A B')).toBe('/equipos/serial/A%20B');
     expect(urlQR('X1', 'https://a.co')).toBe('https://a.co/equipos/serial/X1');
+    expect(urlQR('X1', 'https://u.github.io', '/maki-trace-frontend')).toBe(
+      'https://u.github.io/maki-trace-frontend/equipos/serial/X1',
+    );
   });
   it('calcula contador y garantía', () => {
     expect(

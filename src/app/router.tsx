@@ -4,6 +4,7 @@ import { useAuth } from '@/modules/auth/AuthContext';
 import { rutaInicial, type Permiso } from '@/modules/auth/domain/permisos';
 import { LoginPage } from '@/modules/auth/pages/LoginPage';
 import { RequireAuth } from '@/modules/auth/RequireAuth';
+import { BASE_PATH } from '@/shared/lib/base';
 import { Loading } from '@/shared/ui';
 import { AppLayout } from './AppLayout';
 
@@ -237,4 +238,4 @@ export const routes: RouteObject[] = [
   },
 ];
 
-export const createRouter = () => createBrowserRouter(routes);
+export const createRouter = () => createBrowserRouter(routes, { basename: BASE_PATH || '/' });

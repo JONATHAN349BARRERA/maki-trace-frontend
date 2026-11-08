@@ -1,3 +1,4 @@
+import { BASE_PATH } from '@/shared/lib/base';
 import { daysBetween } from '@/shared/lib/dates';
 import { DIAS_ALERTA_VENCIMIENTO } from '@/modules/contratos/domain/vigencia';
 import type { Equipo, LecturaContador } from '../types';
@@ -20,8 +21,12 @@ export function estadoGarantia(
 /** Ruta pública que codifica el QR pegado al equipo (asociado a su serial). */
 export const rutaQR = (serial: string) => `/equipos/serial/${encodeURIComponent(serial)}`;
 
-export const urlQR = (serial: string, origin: string = window.location.origin) =>
-  `${origin}${rutaQR(serial)}`;
+/** URL completa para el QR; incluye la ruta base cuando la app se publica en una subcarpeta. */
+export const urlQR = (
+  serial: string,
+  origin: string = window.location.origin,
+  base: string = BASE_PATH,
+) => `${origin}${base}${rutaQR(serial)}`;
 
 /** Extrae el serial de lo leído por la cámara: acepta la URL del QR o el serial directo. */
 export function serialDesdeQR(texto: string): string | null {

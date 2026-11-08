@@ -9,3 +9,6 @@ coverage
 *.tsbuildinfo
 .vscode/*
 !.vscode/extensions.json
+
+# Configuración local de herramientas del editor
+.claude/
