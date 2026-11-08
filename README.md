@@ -12,7 +12,15 @@ Proponentes: Samuel Mesa Comaz, Jonathan Barrera Fernández y Juan David Guarniz
 > guardan en el navegador. Cuando exista el backend real, basta con cambiar
 > `VITE_USE_MOCKS=false` y `VITE_API_URL` (ver [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md)).
 
-## Cómo ejecutarlo
+## Ver la aplicación en línea
+
+**https://jonathan349barrera.github.io/maki-trace-frontend/**
+
+Se publica automáticamente en GitHub Pages cada vez que se integra un cambio a `main`
+(flujo `.github/workflows/pages.yml`). Funciona en computador y celular; los datos de
+demostración viven en el navegador de cada persona.
+
+## Cómo ejecutarlo localmente
 
 Requisitos: Node.js 20 o superior.
 
