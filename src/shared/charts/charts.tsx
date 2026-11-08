@@ -49,7 +49,8 @@ export function BarrasChart<T extends object>({
           <CartesianGrid vertical={false} stroke="#e5e7eb" />
           <XAxis
             dataKey={x as string}
-            tick={EJE}
+            tick={{ ...EJE, fontSize: 11 }}
+            interval={0}
             tickLine={false}
             axisLine={{ stroke: '#d1d5db' }}
           />

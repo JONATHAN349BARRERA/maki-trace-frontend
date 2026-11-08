@@ -1,4 +1,4 @@
-import { format, formatDistanceToNowStrict, parseISO } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 const cop = new Intl.NumberFormat('es-CO', {
@@ -16,9 +16,6 @@ export const formatDate = (iso: string | undefined | null) =>
 
 export const formatDateTime = (iso: string | undefined | null) =>
   iso ? format(parseISO(iso), 'dd/MM/yyyy HH:mm', { locale: es }) : '—';
-
-export const fromNow = (iso: string, now: Date = new Date()) =>
-  formatDistanceToNowStrict(parseISO(iso), { locale: es, addSuffix: true, now } as never);
 
 export const formatHours = (hours: number) => {
   if (hours < 1) return `${Math.round(hours * 60)} min`;
