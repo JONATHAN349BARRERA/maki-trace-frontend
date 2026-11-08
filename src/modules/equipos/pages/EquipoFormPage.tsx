@@ -7,7 +7,7 @@ import { useContratos } from '@/modules/contratos/api';
 import { Alert, Button, Card, Checkbox, Input, Loading, PageHeader, Select, Textarea } from '@/shared/ui';
 import { useEquipo, useGuardarEquipo } from '../api';
 
-export const MODELOS = ['e-STUDIO 2525AC', 'e-STUDIO 3525AC', 'e-STUDIO 3018A', 'e-STUDIO 4518A', 'e-STUDIO 5018A'];
+import { MODELOS } from '../domain/modelos';
 
 const schema = z.object({
   serial: z.string().trim().regex(/^[A-Za-z0-9-]{4,}$/, 'Serial inválido'),
