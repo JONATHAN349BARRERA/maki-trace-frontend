@@ -125,7 +125,7 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
         </Card>
       </div>
       <div className="grid gap-4 lg:grid-cols-3">
-        <div className="space-y-4 lg:col-span-2">
+        <div className="min-w-0 space-y-4 lg:col-span-2">
           <Card title="Características y capacidades">
             <DescriptionList
               items={[
@@ -162,7 +162,7 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
             <CasosTable casos={casos.data ?? []} mostrarCliente={false} />
           </Card>
         </div>
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <Card title="Código QR">
             <EquipoQR serial={equipo.serial} modelo={equipo.modelo} />
           </Card>

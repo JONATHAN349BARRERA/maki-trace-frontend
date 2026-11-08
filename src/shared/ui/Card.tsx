@@ -14,7 +14,10 @@ export function Card({
 }) {
   return (
     <section
-      className={cn('rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-5', className)}
+      className={cn(
+        'min-w-0 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-5',
+        className,
+      )}
     >
       {(title || actions) && (
         <header className="mb-3 flex flex-wrap items-center justify-between gap-2">

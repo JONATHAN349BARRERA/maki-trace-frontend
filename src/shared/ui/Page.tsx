@@ -54,7 +54,7 @@ export function DescriptionList({ items }: { items: { label: string; value: Reac
       {items.map((i) => (
         <div key={i.label}>
           <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">{i.label}</dt>
-          <dd className="mt-0.5 text-sm text-slate-800">{i.value}</dd>
+          <dd className="mt-0.5 break-words text-sm text-slate-800">{i.value}</dd>
         </div>
       ))}
     </dl>
