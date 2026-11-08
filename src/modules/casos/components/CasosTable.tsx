@@ -4,7 +4,13 @@ import { Table } from '@/shared/ui';
 import { TIPO_CASO_LABEL, type CasoDetalle } from '../types';
 import { EstadoCasoBadge } from './EstadoCasoBadge';
 
-export function CasosTable({ casos, mostrarCliente = true }: { casos: CasoDetalle[]; mostrarCliente?: boolean }) {
+export function CasosTable({
+  casos,
+  mostrarCliente = true,
+}: {
+  casos: CasoDetalle[];
+  mostrarCliente?: boolean;
+}) {
   return (
     <Table<CasoDetalle>
       caption="Casos"
@@ -21,9 +27,14 @@ export function CasosTable({ casos, mostrarCliente = true }: { casos: CasoDetall
           ),
         },
         { header: 'Tipo', cell: (c) => TIPO_CASO_LABEL[c.tipo] },
-        ...(mostrarCliente ? [{ header: 'Cliente', cell: (c: CasoDetalle) => c.clienteNombre }] : []),
+        ...(mostrarCliente
+          ? [{ header: 'Cliente', cell: (c: CasoDetalle) => c.clienteNombre }]
+          : []),
         { header: 'Equipo', cell: (c) => `${c.equipoSerial} · ${c.equipoModelo}` },
-        { header: 'Estado', cell: (c) => <EstadoCasoBadge estado={c.estado} demorado={c.demorado} /> },
+        {
+          header: 'Estado',
+          cell: (c) => <EstadoCasoBadge estado={c.estado} demorado={c.demorado} />,
+        },
         { header: 'Técnico', cell: (c) => c.tecnicoNombre ?? '—' },
         { header: 'Registrado', cell: (c) => formatDateTime(c.creadoEn) },
       ]}

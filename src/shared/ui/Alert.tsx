@@ -18,7 +18,10 @@ export function Alert({
   children?: ReactNode;
 }) {
   return (
-    <div role={tone === 'danger' ? 'alert' : 'status'} className={cn('rounded-lg p-3 text-sm ring-1', tones[tone])}>
+    <div
+      role={tone === 'danger' ? 'alert' : 'status'}
+      className={cn('rounded-lg p-3 text-sm ring-1', tones[tone])}
+    >
       {title && <p className="font-semibold">{title}</p>}
       {children && <div className={cn(title && 'mt-1')}>{children}</div>}
     </div>

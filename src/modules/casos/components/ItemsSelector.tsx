@@ -27,7 +27,11 @@ export function ItemsSelector({
             <li key={v.itemId} className="flex items-center gap-2">
               <span className="flex-1 text-sm text-slate-800">
                 {item?.nombre ?? v.itemId}
-                {mostrarExistencias && item && <span className="ml-1 text-xs text-slate-500">(existencias: {item.existencias})</span>}
+                {mostrarExistencias && item && (
+                  <span className="ml-1 text-xs text-slate-500">
+                    (existencias: {item.existencias})
+                  </span>
+                )}
               </span>
               <input
                 type="number"

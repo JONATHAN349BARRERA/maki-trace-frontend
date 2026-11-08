@@ -23,7 +23,12 @@ export function FlujoEstados({ estado }: { estado: EstadoCaso }) {
           >
             {i < actual ? <Check size={14} /> : i + 1}
           </span>
-          <span className={cn('ml-2 text-xs sm:text-sm', i === actual ? 'font-semibold text-slate-900' : 'text-slate-500')}>
+          <span
+            className={cn(
+              'ml-2 text-xs sm:text-sm',
+              i === actual ? 'font-semibold text-slate-900' : 'text-slate-500',
+            )}
+          >
             {ESTADO_CASO_LABEL[e]}
           </span>
           {i < ORDEN_ESTADOS.length - 1 && <span className="mx-2 h-px w-4 bg-slate-300 sm:w-8" />}

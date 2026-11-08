@@ -1,4 +1,11 @@
-import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
+import {
+  forwardRef,
+  useId,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from 'react';
 import { cn } from '@/shared/lib/cn';
 
 const control =
@@ -35,28 +42,33 @@ function Wrapper({
   );
 }
 
-export const Input = forwardRef<HTMLInputElement, FieldProps & InputHTMLAttributes<HTMLInputElement>>(
-  function Input({ label, error, hint, className, id, ...rest }, ref) {
-    const auto = useId();
-    const fid = id ?? auto;
-    return (
-      <Wrapper id={fid} label={label} error={error} hint={hint} className={className}>
-        <input
-          ref={ref}
-          id={fid}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${fid}-error` : undefined}
-          className={control}
-          {...rest}
-        />
-      </Wrapper>
-    );
-  },
-);
+export const Input = forwardRef<
+  HTMLInputElement,
+  FieldProps & InputHTMLAttributes<HTMLInputElement>
+>(function Input({ label, error, hint, className, id, ...rest }, ref) {
+  const auto = useId();
+  const fid = id ?? auto;
+  return (
+    <Wrapper id={fid} label={label} error={error} hint={hint} className={className}>
+      <input
+        ref={ref}
+        id={fid}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${fid}-error` : undefined}
+        className={control}
+        {...rest}
+      />
+    </Wrapper>
+  );
+});
 
 export const Select = forwardRef<
   HTMLSelectElement,
-  FieldProps & SelectHTMLAttributes<HTMLSelectElement> & { options: { value: string; label: string }[]; placeholder?: string }
+  FieldProps &
+    SelectHTMLAttributes<HTMLSelectElement> & {
+      options: { value: string; label: string }[];
+      placeholder?: string;
+    }
 >(function Select({ label, error, hint, className, id, options, placeholder, ...rest }, ref) {
   const auto = useId();
   const fid = id ?? auto;
@@ -74,17 +86,25 @@ export const Select = forwardRef<
   );
 });
 
-export const Textarea = forwardRef<HTMLTextAreaElement, FieldProps & TextareaHTMLAttributes<HTMLTextAreaElement>>(
-  function Textarea({ label, error, hint, className, id, ...rest }, ref) {
-    const auto = useId();
-    const fid = id ?? auto;
-    return (
-      <Wrapper id={fid} label={label} error={error} hint={hint} className={className}>
-        <textarea ref={ref} id={fid} rows={3} aria-invalid={!!error} className={cn(control, 'resize-y')} {...rest} />
-      </Wrapper>
-    );
-  },
-);
+export const Textarea = forwardRef<
+  HTMLTextAreaElement,
+  FieldProps & TextareaHTMLAttributes<HTMLTextAreaElement>
+>(function Textarea({ label, error, hint, className, id, ...rest }, ref) {
+  const auto = useId();
+  const fid = id ?? auto;
+  return (
+    <Wrapper id={fid} label={label} error={error} hint={hint} className={className}>
+      <textarea
+        ref={ref}
+        id={fid}
+        rows={3}
+        aria-invalid={!!error}
+        className={cn(control, 'resize-y')}
+        {...rest}
+      />
+    </Wrapper>
+  );
+});
 
 export function Checkbox({
   label,
@@ -92,7 +112,11 @@ export function Checkbox({
 }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="flex items-center gap-2 text-sm text-slate-700">
-      <input type="checkbox" className="h-4 w-4 rounded border-slate-300 text-brand-600" {...rest} />
+      <input
+        type="checkbox"
+        className="h-4 w-4 rounded border-slate-300 text-brand-600"
+        {...rest}
+      />
       {label}
     </label>
   );

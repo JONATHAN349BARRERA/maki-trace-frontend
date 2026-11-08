@@ -48,7 +48,8 @@ export function CasoDetallePage() {
         {caso.demorado && (
           <div className="mt-3">
             <Alert tone="danger" title="Caso demorado">
-              Supera el tiempo máximo de atención de {SLA_HORAS[caso.tipo]} h para solicitudes de tipo {TIPO_CASO_LABEL[caso.tipo].toLowerCase()}.
+              Supera el tiempo máximo de atención de {SLA_HORAS[caso.tipo]} h para solicitudes de
+              tipo {TIPO_CASO_LABEL[caso.tipo].toLowerCase()}.
             </Alert>
           </div>
         )}
@@ -68,7 +69,10 @@ export function CasoDetallePage() {
                     usuario?.rol === 'cliente' ? (
                       `${caso.equipoSerial} · ${caso.equipoModelo}`
                     ) : (
-                      <Link className="text-brand-600 hover:underline" to={`/equipos/${caso.equipoId}`}>
+                      <Link
+                        className="text-brand-600 hover:underline"
+                        to={`/equipos/${caso.equipoId}`}
+                      >
                         {caso.equipoSerial} · {caso.equipoModelo}
                       </Link>
                     ),
@@ -77,7 +81,10 @@ export function CasoDetallePage() {
                 {
                   label: 'Contrato',
                   value: caso.contratoId ? (
-                    <Link className="text-brand-600 hover:underline" to={`/contratos/${caso.contratoId}`}>
+                    <Link
+                      className="text-brand-600 hover:underline"
+                      to={`/contratos/${caso.contratoId}`}
+                    >
                       {caso.contratoNumero}
                     </Link>
                   ) : (
@@ -86,25 +93,32 @@ export function CasoDetallePage() {
                 },
                 { label: 'Registrado', value: formatDateTime(caso.creadoEn) },
                 { label: 'Técnico asignado', value: caso.tecnicoNombre ?? '—' },
-                { label: 'Fecha programada', value: caso.fechaProgramada ? formatDateTime(caso.fechaProgramada) : '—' },
+                {
+                  label: 'Fecha programada',
+                  value: caso.fechaProgramada ? formatDateTime(caso.fechaProgramada) : '—',
+                },
               ]}
             />
             {caso.itemsSolicitados.length > 0 && (
               <div className="mt-4">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-500">Ítems solicitados</p>
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-500">
+                  Ítems solicitados
+                </p>
                 <ListaItems items={caso.itemsSolicitados} nombres={nombres} />
               </div>
             )}
           </Card>
-          {caso.advertenciasAceptadas && caso.advertenciasAceptadas.length > 0 && usuario?.rol !== 'cliente' && (
-            <Alert tone="warning" title="Aprobado con advertencias">
-              <ul className="list-disc pl-4">
-                {caso.advertenciasAceptadas.map((a) => (
-                  <li key={a.mensaje}>{a.mensaje}</li>
-                ))}
-              </ul>
-            </Alert>
-          )}
+          {caso.advertenciasAceptadas &&
+            caso.advertenciasAceptadas.length > 0 &&
+            usuario?.rol !== 'cliente' && (
+              <Alert tone="warning" title="Aprobado con advertencias">
+                <ul className="list-disc pl-4">
+                  {caso.advertenciasAceptadas.map((a) => (
+                    <li key={a.mensaje}>{a.mensaje}</li>
+                  ))}
+                </ul>
+              </Alert>
+            )}
           {caso.trabajo && caso.estado === 'cerrado' && (
             <Card title="Trabajo realizado">
               <DescriptionList
@@ -112,8 +126,13 @@ export function CasoDetallePage() {
                   { label: 'Descripción', value: caso.trabajo.descripcion },
                   { label: 'Inicio', value: formatDateTime(caso.trabajo.inicio) },
                   { label: 'Fin', value: formatDateTime(caso.trabajo.fin) },
-                  { label: 'Contador registrado', value: caso.trabajo.contador ? formatNumber(caso.trabajo.contador) : '—' },
-                  ...(verCostos ? [{ label: 'Costo de lo entregado', value: formatCOP(caso.costoTotal ?? 0) }] : []),
+                  {
+                    label: 'Contador registrado',
+                    value: caso.trabajo.contador ? formatNumber(caso.trabajo.contador) : '—',
+                  },
+                  ...(verCostos
+                    ? [{ label: 'Costo de lo entregado', value: formatCOP(caso.costoTotal ?? 0) }]
+                    : []),
                 ]}
               />
               {caso.trabajo.itemsUsados.length > 0 && (

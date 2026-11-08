@@ -31,7 +31,10 @@ export function LoginPage() {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<Form>({ resolver: zodResolver(schema), defaultValues: { usuario: '', password: '' } });
+  } = useForm<Form>({
+    resolver: zodResolver(schema),
+    defaultValues: { usuario: '', password: '' },
+  });
 
   if (usuario) return <Navigate to={rutaInicial(usuario.rol)} replace />;
 
@@ -57,10 +60,19 @@ export function LoginPage() {
             Gestión de contratos de arriendo y posventa · Maki Import Group S.A.S.
           </p>
         </div>
-        <form onSubmit={onSubmit} noValidate className="space-y-4 rounded-2xl bg-white p-6 shadow-xl">
+        <form
+          onSubmit={onSubmit}
+          noValidate
+          className="space-y-4 rounded-2xl bg-white p-6 shadow-xl"
+        >
           <h1 className="text-lg font-semibold text-slate-800">Iniciar sesión</h1>
           {error && <Alert tone="danger">{error}</Alert>}
-          <Input label="Usuario" autoComplete="username" error={errors.usuario?.message} {...register('usuario')} />
+          <Input
+            label="Usuario"
+            autoComplete="username"
+            error={errors.usuario?.message}
+            {...register('usuario')}
+          />
           <Input
             label="Contraseña"
             type="password"

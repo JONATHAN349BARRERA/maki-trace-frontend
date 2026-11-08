@@ -15,7 +15,10 @@ export function horasAbierto(caso: Pick<Caso, 'creadoEn'>, now: Date = new Date(
 }
 
 /** Criterio de aceptación 4: el informe de casos indica cuáles están demorados. */
-export function estaDemorado(caso: Pick<Caso, 'estado' | 'tipo' | 'creadoEn'>, now: Date = new Date()) {
+export function estaDemorado(
+  caso: Pick<Caso, 'estado' | 'tipo' | 'creadoEn'>,
+  now: Date = new Date(),
+) {
   if (!ESTADOS_ABIERTOS.includes(caso.estado)) return false;
   return horasAbierto(caso, now) > SLA_HORAS[caso.tipo];
 }

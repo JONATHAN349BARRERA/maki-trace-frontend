@@ -1,5 +1,6 @@
 export type TipoCaso = 'falla' | 'mantenimiento' | 'repuesto' | 'suministro';
-export type EstadoCaso = 'registrado' | 'aprobado' | 'asignado' | 'en_atencion' | 'cerrado' | 'rechazado';
+export type EstadoCaso =
+  'registrado' | 'aprobado' | 'asignado' | 'en_atencion' | 'cerrado' | 'rechazado';
 
 export const TIPO_CASO_LABEL: Record<TipoCaso, string> = {
   falla: 'Falla',
@@ -39,7 +40,8 @@ export interface TrabajoRealizado {
 }
 
 export interface Advertencia {
-  codigo: 'sin_cobertura' | 'incompatible' | 'consumo_anomalo' | 'sin_existencias' | 'garantia_vencida';
+  codigo:
+    'sin_cobertura' | 'incompatible' | 'consumo_anomalo' | 'sin_existencias' | 'garantia_vencida';
   mensaje: string;
 }
 

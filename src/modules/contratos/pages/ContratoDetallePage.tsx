@@ -44,23 +44,34 @@ export function ContratoDetallePage() {
           <DescriptionList
             items={[
               { label: 'Modalidad', value: MODALIDAD_LABEL[c.modalidad] },
-              { label: 'Estado', value: <VigenciaBadge estado={c.vigencia} dias={c.diasRestantes} /> },
+              {
+                label: 'Estado',
+                value: <VigenciaBadge estado={c.vigencia} dias={c.diasRestantes} />,
+              },
               { label: 'Inicio', value: formatDate(c.fechaInicio) },
               { label: 'Fin', value: formatDate(c.fechaFin) },
               {
-                label: c.modalidad === 'arriendo' ? 'Cuota mensual por equipo' : 'Valor del contrato',
+                label:
+                  c.modalidad === 'arriendo' ? 'Cuota mensual por equipo' : 'Valor del contrato',
                 value: formatCOP(c.valor),
               },
               { label: 'Equipos asociados', value: c.equipos },
               ...(puede('informes:ver')
-                ? [{ label: 'Costo de repuestos y suministros entregados', value: formatCOP(costoEntregado) }]
+                ? [
+                    {
+                      label: 'Costo de repuestos y suministros entregados',
+                      value: formatCOP(costoEntregado),
+                    },
+                  ]
                 : []),
               { label: 'Observaciones', value: c.observaciones || '—' },
             ]}
           />
         </Card>
         <Card title="Componentes cubiertos">
-          <p className="mb-3 text-xs text-slate-500">Define hasta dónde puede solicitar el cliente.</p>
+          <p className="mb-3 text-xs text-slate-500">
+            Define hasta dónde puede solicitar el cliente.
+          </p>
           <ComponentesList componentes={c.componentes} />
         </Card>
       </div>
@@ -73,7 +84,10 @@ export function ContratoDetallePage() {
             {
               header: 'Serial',
               cell: (e) => (
-                <Link to={`/equipos/${e.id}`} className="font-medium text-brand-600 hover:underline">
+                <Link
+                  to={`/equipos/${e.id}`}
+                  className="font-medium text-brand-600 hover:underline"
+                >
                   {e.serial}
                 </Link>
               ),

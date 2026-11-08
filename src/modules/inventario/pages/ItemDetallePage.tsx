@@ -3,7 +3,16 @@ import { useParams } from 'react-router';
 import { Pencil } from 'lucide-react';
 import { useAuth } from '@/modules/auth/AuthContext';
 import { formatCOP, formatNumber } from '@/shared/lib/format';
-import { Alert, Button, Card, DescriptionList, ErrorState, Loading, Modal, PageHeader } from '@/shared/ui';
+import {
+  Alert,
+  Button,
+  Card,
+  DescriptionList,
+  ErrorState,
+  Loading,
+  Modal,
+  PageHeader,
+} from '@/shared/ui';
 import { useItem, useItems, useMovimientos } from '../api';
 import { ItemForm } from '../components/ItemForm';
 import { MovimientoForm } from '../components/MovimientoForm';
@@ -29,7 +38,9 @@ export function ItemDetallePage() {
         actions={
           puede('inventario:editar') && (
             <>
-              <Button variant="secondary" onClick={() => setModal('editar')}><Pencil size={16} /> Editar</Button>
+              <Button variant="secondary" onClick={() => setModal('editar')}>
+                <Pencil size={16} /> Editar
+              </Button>
               <Button onClick={() => setModal('mov')}>Registrar movimiento</Button>
             </>
           )
@@ -37,7 +48,9 @@ export function ItemDetallePage() {
       />
       {bajoMinimo(i) && (
         <div className="mb-4">
-          <Alert tone="danger" title="Existencia por debajo del mínimo">Hay {i.existencias} unidades y el mínimo es {i.minimo}. Gestione la reposición.</Alert>
+          <Alert tone="danger" title="Existencia por debajo del mínimo">
+            Hay {i.existencias} unidades y el mínimo es {i.minimo}. Gestione la reposición.
+          </Alert>
         </div>
       )}
       <Card title="Datos" className="mb-4">
@@ -47,7 +60,12 @@ export function ItemDetallePage() {
             { label: 'Mínimo', value: i.minimo },
             { label: 'Costo unitario', value: formatCOP(i.costoUnitario) },
             { label: 'Valor en existencia', value: formatCOP(i.costoUnitario * i.existencias) },
-            { label: 'Rendimiento', value: i.rendimientoCopias ? `${formatNumber(i.rendimientoCopias)} copias por unidad` : '—' },
+            {
+              label: 'Rendimiento',
+              value: i.rendimientoCopias
+                ? `${formatNumber(i.rendimientoCopias)} copias por unidad`
+                : '—',
+            },
             { label: 'Modelos compatibles', value: i.modelosCompatibles.join(', ') },
           ]}
         />
@@ -59,7 +77,9 @@ export function ItemDetallePage() {
         {modal === 'editar' && <ItemForm item={i} onDone={() => setModal(null)} />}
       </Modal>
       <Modal open={modal === 'mov'} title="Registrar movimiento" onClose={() => setModal(null)}>
-        {modal === 'mov' && <MovimientoForm items={items.data ?? []} itemId={i.id} onDone={() => setModal(null)} />}
+        {modal === 'mov' && (
+          <MovimientoForm items={items.data ?? []} itemId={i.id} onDone={() => setModal(null)} />
+        )}
       </Modal>
     </>
   );

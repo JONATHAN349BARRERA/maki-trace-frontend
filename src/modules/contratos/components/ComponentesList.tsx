@@ -8,7 +8,10 @@ export function ComponentesList({ componentes }: { componentes: Componente[] }) 
       {COMPONENTES.map((c) => {
         const incluido = componentes.includes(c);
         return (
-          <li key={c} className={`flex items-center gap-2 text-sm ${incluido ? 'text-slate-800' : 'text-slate-400 line-through'}`}>
+          <li
+            key={c}
+            className={`flex items-center gap-2 text-sm ${incluido ? 'text-slate-800' : 'text-slate-400 line-through'}`}
+          >
             {incluido ? (
               <CircleCheck size={16} className="text-emerald-600" aria-label="Incluido" />
             ) : (

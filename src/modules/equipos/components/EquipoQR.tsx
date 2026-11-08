@@ -16,7 +16,14 @@ export function EquipoQR({ serial, modelo }: { serial: string; modelo: string })
   };
   return (
     <div className="flex flex-col items-center gap-2">
-      <QRCodeSVG id={`qr-${serial}`} value={urlQR(serial)} size={160} level="M" marginSize={2} title={`QR del equipo ${serial}`} />
+      <QRCodeSVG
+        id={`qr-${serial}`}
+        value={urlQR(serial)}
+        size={160}
+        level="M"
+        marginSize={2}
+        title={`QR del equipo ${serial}`}
+      />
       <p className="text-xs text-slate-500">{serial}</p>
       <Button size="sm" variant="secondary" onClick={imprimir} className="no-print">
         <Printer size={14} /> Imprimir etiqueta

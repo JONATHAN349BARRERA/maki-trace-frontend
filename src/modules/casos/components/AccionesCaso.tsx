@@ -20,7 +20,9 @@ function AprobarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: () => vo
   const validacion = useValidacionCaso(caso.id, true);
   const [confirmado, setConfirmado] = useState(false);
   const [nota, setNota] = useState('');
-  const aprobar = useAccionCaso(() => casosApi.aprobar(caso.id, { confirmarAdvertencias: confirmado, nota: nota || undefined }));
+  const aprobar = useAccionCaso(() =>
+    casosApi.aprobar(caso.id, { confirmarAdvertencias: confirmado, nota: nota || undefined }),
+  );
   const advertencias = validacion.data ?? [];
   return (
     <Modal
@@ -33,7 +35,9 @@ function AprobarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: () => vo
             Cancelar
           </Button>
           <Button
-            disabled={validacion.isLoading || (advertencias.length > 0 && !confirmado) || aprobar.isPending}
+            disabled={
+              validacion.isLoading || (advertencias.length > 0 && !confirmado) || aprobar.isPending
+            }
             onClick={() => aprobar.mutate(undefined, { onSuccess: onClose })}
           >
             Aprobar caso
@@ -63,7 +67,11 @@ function AprobarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: () => vo
           />
         </>
       )}
-      <Textarea label="Observación (opcional)" value={nota} onChange={(e) => setNota(e.target.value)} />
+      <Textarea
+        label="Observación (opcional)"
+        value={nota}
+        onChange={(e) => setNota(e.target.value)}
+      />
       {aprobar.error && <Alert tone="danger">{aprobar.error.message}</Alert>}
     </Modal>
   );
@@ -78,7 +86,11 @@ function RechazarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: () => v
       title={`Rechazar ${caso.consecutivo}`}
       onClose={onClose}
       footer={
-        <Button variant="danger" disabled={!nota.trim() || rechazar.isPending} onClick={() => rechazar.mutate(undefined, { onSuccess: onClose })}>
+        <Button
+          variant="danger"
+          disabled={!nota.trim() || rechazar.isPending}
+          onClick={() => rechazar.mutate(undefined, { onSuccess: onClose })}
+        >
           Rechazar
         </Button>
       }
@@ -93,14 +105,19 @@ function AsignarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: () => vo
   const tecnicos = useTecnicos();
   const [tecnicoId, setTecnicoId] = useState(caso.tecnicoId ?? '');
   const [fecha, setFecha] = useState(caso.fechaProgramada ?? '');
-  const asignar = useAccionCaso(() => casosApi.asignar(caso.id, { tecnicoId, fechaProgramada: fecha || undefined }));
+  const asignar = useAccionCaso(() =>
+    casosApi.asignar(caso.id, { tecnicoId, fechaProgramada: fecha || undefined }),
+  );
   return (
     <Modal
       open
       title={`Asignar técnico · ${caso.consecutivo}`}
       onClose={onClose}
       footer={
-        <Button disabled={!tecnicoId || asignar.isPending} onClick={() => asignar.mutate(undefined, { onSuccess: onClose })}>
+        <Button
+          disabled={!tecnicoId || asignar.isPending}
+          onClick={() => asignar.mutate(undefined, { onSuccess: onClose })}
+        >
           Asignar
         </Button>
       }
@@ -111,9 +128,16 @@ function AsignarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: () => vo
         placeholder="Seleccione…"
         value={tecnicoId}
         onChange={(e) => setTecnicoId(e.target.value)}
-        options={(tecnicos.data ?? []).filter((t) => t.activo).map((t) => ({ value: t.id, label: `${t.nombre} · ${t.zona}` }))}
+        options={(tecnicos.data ?? [])
+          .filter((t) => t.activo)
+          .map((t) => ({ value: t.id, label: `${t.nombre} · ${t.zona}` }))}
       />
-      <Input label="Fecha y hora programada" type="datetime-local" value={fecha} onChange={(e) => setFecha(e.target.value)} />
+      <Input
+        label="Fecha y hora programada"
+        type="datetime-local"
+        value={fecha}
+        onChange={(e) => setFecha(e.target.value)}
+      />
       {asignar.error && <Alert tone="danger">{asignar.error.message}</Alert>}
     </Modal>
   );
@@ -140,17 +164,28 @@ export function CerrarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: ()
       title={`Registrar trabajo y cerrar · ${caso.consecutivo}`}
       onClose={onClose}
       footer={
-        <Button disabled={!descripcion.trim() || cerrar.isPending} onClick={() => cerrar.mutate(undefined, { onSuccess: onClose })}>
+        <Button
+          disabled={!descripcion.trim() || cerrar.isPending}
+          onClick={() => cerrar.mutate(undefined, { onSuccess: onClose })}
+        >
           Cerrar caso
         </Button>
       }
     >
-      <Textarea label="Trabajo realizado" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+      <Textarea
+        label="Trabajo realizado"
+        value={descripcion}
+        onChange={(e) => setDescripcion(e.target.value)}
+      />
       <Input
         label="Contador de copias actual"
         type="number"
         min={contadorActual ?? 0}
-        hint={contadorActual !== undefined ? `Último registrado: ${formatNumber(contadorActual)}` : undefined}
+        hint={
+          contadorActual !== undefined
+            ? `Último registrado: ${formatNumber(contadorActual)}`
+            : undefined
+        }
         value={contador}
         onChange={(e) => setContador(e.target.value)}
       />
@@ -162,7 +197,8 @@ export function CerrarDialog({ caso, onClose }: { caso: CasoDetalle; onClose: ()
         mostrarExistencias
       />
       <p className="text-xs text-slate-500">
-        Al cerrar, el servicio y los ítems entregados quedan en la hoja de vida del equipo y se descuentan del inventario.
+        Al cerrar, el servicio y los ítems entregados quedan en la hoja de vida del equipo y se
+        descuentan del inventario.
       </p>
       {cerrar.error && <Alert tone="danger">{cerrar.error.message}</Alert>}
     </Modal>
@@ -180,14 +216,19 @@ export function AccionesCaso({ caso }: { caso: CasoDetalle }) {
   const cerrar = () => setDialogo(null);
   return (
     <div className="flex flex-wrap gap-2">
-      {acciones.includes('aprobar') && <Button onClick={() => setDialogo('aprobar')}>Aprobar</Button>}
+      {acciones.includes('aprobar') && (
+        <Button onClick={() => setDialogo('aprobar')}>Aprobar</Button>
+      )}
       {acciones.includes('rechazar') && (
         <Button variant="secondary" onClick={() => setDialogo('rechazar')}>
           Rechazar
         </Button>
       )}
       {acciones.includes('asignar') && (
-        <Button variant={caso.estado === 'aprobado' ? 'primary' : 'secondary'} onClick={() => setDialogo('asignar')}>
+        <Button
+          variant={caso.estado === 'aprobado' ? 'primary' : 'secondary'}
+          onClick={() => setDialogo('asignar')}
+        >
           {caso.estado === 'asignado' ? 'Reasignar técnico' : 'Asignar técnico'}
         </Button>
       )}
@@ -196,7 +237,9 @@ export function AccionesCaso({ caso }: { caso: CasoDetalle }) {
           Iniciar atención
         </Button>
       )}
-      {acciones.includes('cerrar') && <Button onClick={() => setDialogo('cerrar')}>Registrar trabajo y cerrar</Button>}
+      {acciones.includes('cerrar') && (
+        <Button onClick={() => setDialogo('cerrar')}>Registrar trabajo y cerrar</Button>
+      )}
       {iniciar.error && <Alert tone="danger">{iniciar.error.message}</Alert>}
       {dialogo === 'aprobar' && <AprobarDialog caso={caso} onClose={cerrar} />}
       {dialogo === 'rechazar' && <RechazarDialog caso={caso} onClose={cerrar} />}

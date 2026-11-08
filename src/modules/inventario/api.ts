@@ -13,14 +13,19 @@ export const inventarioApi = {
 
 export const useItems = (modelo?: string) =>
   useQuery({ queryKey: ['items', { modelo }], queryFn: () => inventarioApi.items(modelo) });
-export const useItem = (id: string) => useQuery({ queryKey: ['items', id], queryFn: () => inventarioApi.item(id) });
+export const useItem = (id: string) =>
+  useQuery({ queryKey: ['items', id], queryFn: () => inventarioApi.item(id) });
 export const useMovimientos = (itemId?: string) =>
-  useQuery({ queryKey: ['movimientos', { itemId }], queryFn: () => inventarioApi.movimientos(itemId) });
+  useQuery({
+    queryKey: ['movimientos', { itemId }],
+    queryFn: () => inventarioApi.movimientos(itemId),
+  });
 
 function useInvalidarInventario() {
   const qc = useQueryClient();
   return () => {
-    for (const key of ['items', 'movimientos', 'alertas', 'informes']) qc.invalidateQueries({ queryKey: [key] });
+    for (const key of ['items', 'movimientos', 'alertas', 'informes'])
+      qc.invalidateQueries({ queryKey: [key] });
   };
 }
 

@@ -33,7 +33,12 @@ export const MENU: ItemMenu[] = [
   { to: '/casos', label: 'Casos', icon: ClipboardList, roles: ['gerente', 'gestor', 'cliente'] },
   { to: '/contratos', label: 'Contratos', icon: FileText, roles: ['gerente', 'gestor', 'cliente'] },
   { to: '/equipos', label: 'Equipos', icon: Printer, roles: ['gerente', 'gestor', 'cliente'] },
-  { to: '/inventario', label: 'Repuestos y suministros', icon: Package, roles: ['gerente', 'gestor'] },
+  {
+    to: '/inventario',
+    label: 'Repuestos y suministros',
+    icon: Package,
+    roles: ['gerente', 'gestor'],
+  },
   { to: '/personal', label: 'Personal técnico', icon: Wrench, roles: ['gerente', 'gestor'] },
   { to: '/clientes', label: 'Clientes', icon: Users, roles: ['gerente', 'gestor'] },
   { to: '/cartera', label: 'Cartera', icon: Wallet, roles: ['gerente'] },

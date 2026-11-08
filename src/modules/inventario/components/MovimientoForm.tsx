@@ -3,10 +3,25 @@ import { Alert, Button, Input, Select } from '@/shared/ui';
 import { useRegistrarMovimiento } from '../api';
 import type { Item, TipoMovimiento } from '../types';
 
-export function MovimientoForm({ items, itemId, onDone }: { items: Item[]; itemId?: string; onDone: () => void }) {
+export function MovimientoForm({
+  items,
+  itemId,
+  onDone,
+}: {
+  items: Item[];
+  itemId?: string;
+  onDone: () => void;
+}) {
   const registrar = useRegistrarMovimiento();
-  const [form, setForm] = useState({ itemId: itemId ?? '', tipo: 'entrada' as TipoMovimiento, cantidad: '', costoUnitario: '', nota: '' });
-  const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm({ ...form, [k]: e.target.value });
+  const [form, setForm] = useState({
+    itemId: itemId ?? '',
+    tipo: 'entrada' as TipoMovimiento,
+    cantidad: '',
+    costoUnitario: '',
+    nota: '',
+  });
+  const set = (k: keyof typeof form) => (e: { target: { value: string } }) =>
+    setForm({ ...form, [k]: e.target.value });
   return (
     <form
       className="space-y-3"
@@ -25,7 +40,16 @@ export function MovimientoForm({ items, itemId, onDone }: { items: Item[]; itemI
       }}
     >
       {registrar.error && <Alert tone="danger">{registrar.error.message}</Alert>}
-      <Select label="Ítem" placeholder="Seleccione…" value={form.itemId} onChange={set('itemId')} options={items.map((i) => ({ value: i.id, label: `${i.codigo} · ${i.nombre} (${i.existencias})` }))} />
+      <Select
+        label="Ítem"
+        placeholder="Seleccione…"
+        value={form.itemId}
+        onChange={set('itemId')}
+        options={items.map((i) => ({
+          value: i.id,
+          label: `${i.codigo} · ${i.nombre} (${i.existencias})`,
+        }))}
+      />
       <Select
         label="Tipo de movimiento"
         value={form.tipo}
@@ -36,11 +60,29 @@ export function MovimientoForm({ items, itemId, onDone }: { items: Item[]; itemI
           { value: 'ajuste', label: 'Ajuste por conteo físico' },
         ]}
       />
-      <Input label={form.tipo === 'ajuste' ? 'Existencia contada' : 'Cantidad'} type="number" min={0} value={form.cantidad} onChange={set('cantidad')} />
-      {form.tipo === 'entrada' && <Input label="Costo unitario (opcional)" type="number" value={form.costoUnitario} onChange={set('costoUnitario')} />}
+      <Input
+        label={form.tipo === 'ajuste' ? 'Existencia contada' : 'Cantidad'}
+        type="number"
+        min={0}
+        value={form.cantidad}
+        onChange={set('cantidad')}
+      />
+      {form.tipo === 'entrada' && (
+        <Input
+          label="Costo unitario (opcional)"
+          type="number"
+          value={form.costoUnitario}
+          onChange={set('costoUnitario')}
+        />
+      )}
       <Input label="Nota" value={form.nota} onChange={set('nota')} />
       <div className="flex justify-end">
-        <Button type="submit" disabled={!form.itemId || form.cantidad === '' || registrar.isPending}>Registrar movimiento</Button>
+        <Button
+          type="submit"
+          disabled={!form.itemId || form.cantidad === '' || registrar.isPending}
+        >
+          Registrar movimiento
+        </Button>
       </div>
     </form>
   );

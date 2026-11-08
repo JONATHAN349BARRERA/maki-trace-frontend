@@ -23,10 +23,18 @@ const promedio = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / 
 export function informeCasos(db: Db, now: Date): InformeCasos {
   const casos = db.casos
     .map((c) => ({ ...detalleCaso(db, c, now), horasAbierto: horasAbierto(c, now) }))
-    .sort((a, b) => Number(b.demorado) - Number(a.demorado) || b.creadoEn.localeCompare(a.creadoEn));
+    .sort(
+      (a, b) => Number(b.demorado) - Number(a.demorado) || b.creadoEn.localeCompare(a.creadoEn),
+    );
   return {
-    porEstado: ESTADOS.map((estado) => ({ estado, cantidad: db.casos.filter((c) => c.estado === estado).length })),
-    porTipo: TIPOS.map((tipo) => ({ tipo, cantidad: db.casos.filter((c) => c.tipo === tipo).length })),
+    porEstado: ESTADOS.map((estado) => ({
+      estado,
+      cantidad: db.casos.filter((c) => c.estado === estado).length,
+    })),
+    porTipo: TIPOS.map((tipo) => ({
+      tipo,
+      cantidad: db.casos.filter((c) => c.tipo === tipo).length,
+    })),
     casos,
     demorados: casos.filter((c) => c.demorado).length,
     abiertos: db.casos.filter((c) => ESTADOS_ABIERTOS.includes(c.estado)).length,
@@ -82,7 +90,9 @@ export function informeContratos(db: Db, now: Date): FilaContrato[] {
   return db.contratos.map((c) => {
     const casos = db.casos.filter((k) => k.contratoId === c.id);
     const costo = casos.reduce((s, k) => s + (k.costoTotal ?? 0), 0);
-    const facturado = db.facturas.filter((f) => f.contratoId === c.id).reduce((s, f) => s + f.valor, 0);
+    const facturado = db.facturas
+      .filter((f) => f.contratoId === c.id)
+      .reduce((s, f) => s + f.valor, 0);
     const base = c.modalidad === 'arriendo' ? facturado : c.valor;
     const casosPorTipo = Object.fromEntries(
       TIPOS.map((t) => [t, casos.filter((k) => k.tipo === t).length]),
@@ -106,7 +116,10 @@ export function informeContratos(db: Db, now: Date): FilaContrato[] {
 export function informeCartera(db: Db, now: Date): InformeCartera {
   const facturas = db.facturas.map((f) => resumenFactura(db, f, now));
   const pendientes = facturas.filter((f) => f.estadoActual !== 'pagada');
-  const porCliente = new Map<string, { clienteId: string; clienteNombre: string; pendiente: number; vencido: number }>();
+  const porCliente = new Map<
+    string,
+    { clienteId: string; clienteNombre: string; pendiente: number; vencido: number }
+  >();
   for (const f of pendientes) {
     const fila = porCliente.get(f.clienteId) ?? {
       clienteId: f.clienteId,
@@ -121,11 +134,17 @@ export function informeCartera(db: Db, now: Date): InformeCartera {
   return {
     facturado: facturas.reduce((s, f) => s + f.valor, 0),
     recaudado: facturas.filter((f) => f.estadoActual === 'pagada').reduce((s, f) => s + f.valor, 0),
-    pendiente: pendientes.filter((f) => f.estadoActual === 'pendiente').reduce((s, f) => s + f.valor, 0),
-    vencido: pendientes.filter((f) => f.estadoActual === 'vencida').reduce((s, f) => s + f.valor, 0),
+    pendiente: pendientes
+      .filter((f) => f.estadoActual === 'pendiente')
+      .reduce((s, f) => s + f.valor, 0),
+    vencido: pendientes
+      .filter((f) => f.estadoActual === 'vencida')
+      .reduce((s, f) => s + f.valor, 0),
     porRango: RANGOS_MORA.map((rango) => ({
       rango,
-      valor: pendientes.filter((f) => rangoMora(f.diasMora) === rango).reduce((s, f) => s + f.valor, 0),
+      valor: pendientes
+        .filter((f) => rangoMora(f.diasMora) === rango)
+        .reduce((s, f) => s + f.valor, 0),
     })),
     porCliente: [...porCliente.values()].sort((a, b) => b.vencido - a.vencido),
   };

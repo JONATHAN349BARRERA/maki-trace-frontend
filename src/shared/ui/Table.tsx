@@ -47,7 +47,10 @@ export function Table<T>({
             rows.map((r) => (
               <tr key={rowKey(r)} className="hover:bg-slate-50">
                 {columns.map((c) => (
-                  <td key={c.header} className={c.className ?? 'whitespace-nowrap px-4 py-2 text-slate-700'}>
+                  <td
+                    key={c.header}
+                    className={c.className ?? 'whitespace-nowrap px-4 py-2 text-slate-700'}
+                  >
                     {c.cell(r)}
                   </td>
                 ))}

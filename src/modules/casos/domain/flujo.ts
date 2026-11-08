@@ -31,7 +31,13 @@ export const accionesDisponibles = (estado: EstadoCaso, rol: Rol): Accion[] =>
   (Object.keys(TRANSICIONES) as Accion[]).filter((a) => puedeTransicionar(estado, a, rol));
 
 export const ESTADOS_ABIERTOS: EstadoCaso[] = ['registrado', 'aprobado', 'asignado', 'en_atencion'];
-export const ORDEN_ESTADOS: EstadoCaso[] = ['registrado', 'aprobado', 'asignado', 'en_atencion', 'cerrado'];
+export const ORDEN_ESTADOS: EstadoCaso[] = [
+  'registrado',
+  'aprobado',
+  'asignado',
+  'en_atencion',
+  'cerrado',
+];
 
 export const ESTADO_TONE = {
   registrado: 'gray',

@@ -106,7 +106,12 @@ export function detalleCaso(db: Db, c: Caso, now: Date): CasoDetalle {
 }
 
 /** Contador del equipo la última vez que se le entregó ese ítem (para medir consumo). */
-export function contadorUltimaEntrega(db: Db, equipoId: string, itemId: string, excluirCasoId?: string) {
+export function contadorUltimaEntrega(
+  db: Db,
+  equipoId: string,
+  itemId: string,
+  excluirCasoId?: string,
+) {
   const casos = db.casos
     .filter(
       (c) =>
@@ -123,7 +128,11 @@ export function contadorUltimaEntrega(db: Db, equipoId: string, itemId: string, 
  * Validación previa a la aprobación (criterio de aceptación 1): cobertura del
  * contrato, compatibilidad del ítem con el equipo, coherencia del consumo y existencias.
  */
-export function validarCaso(db: Db, caso: Pick<Caso, 'id' | 'equipoId' | 'contratoId' | 'tipo' | 'itemsSolicitados'>, now: Date): Advertencia[] {
+export function validarCaso(
+  db: Db,
+  caso: Pick<Caso, 'id' | 'equipoId' | 'contratoId' | 'tipo' | 'itemsSolicitados'>,
+  now: Date,
+): Advertencia[] {
   const advertencias: Advertencia[] = [];
   const equipo = buscar(db.equipos, caso.equipoId, 'Equipo');
   const contrato = db.contratos.find((c) => c.id === caso.contratoId);
@@ -193,7 +202,10 @@ export function crearCaso(db: Db, input: NuevaSolicitud, usuario: Usuario, now: 
     throw new HttpError(403, 'El equipo no pertenece a sus contratos.');
   }
   if (!input.descripcion?.trim()) throw new HttpError(400, 'La descripción es obligatoria.');
-  if ((input.tipo === 'repuesto' || input.tipo === 'suministro') && input.itemsSolicitados.length === 0) {
+  if (
+    (input.tipo === 'repuesto' || input.tipo === 'suministro') &&
+    input.itemsSolicitados.length === 0
+  ) {
     throw new HttpError(400, 'Indique los repuestos o suministros solicitados.');
   }
   const anio = now.getFullYear();
@@ -236,7 +248,10 @@ export function aprobarCaso(
     caso,
     usuario,
     now,
-    [opts.nota, advertencias.length ? `Aprobado con ${advertencias.length} advertencia(s)` : undefined]
+    [
+      opts.nota,
+      advertencias.length ? `Aprobado con ${advertencias.length} advertencia(s)` : undefined,
+    ]
       .filter(Boolean)
       .join(' · ') || undefined,
   );
@@ -287,7 +302,13 @@ export function iniciarCaso(db: Db, id: string, usuario: Usuario, now: Date) {
  * Cierre del caso: deja registro en la hoja de vida del equipo y descuenta del
  * inventario lo entregado (criterio de aceptación 2).
  */
-export function cerrarCaso(db: Db, id: string, usuario: Usuario, trabajo: TrabajoRealizado, now: Date) {
+export function cerrarCaso(
+  db: Db,
+  id: string,
+  usuario: Usuario,
+  trabajo: TrabajoRealizado,
+  now: Date,
+) {
   const caso = buscar(db.casos, id, 'Caso');
   verificarTecnicoAsignado(caso, usuario);
   if (!trabajo.descripcion?.trim()) {
@@ -306,13 +327,19 @@ export function cerrarCaso(db: Db, id: string, usuario: Usuario, trabajo: Trabaj
   for (const u of usados) {
     const item = buscar(db.items, u.itemId, 'Ítem');
     if (u.cantidad > item.existencias) {
-      throw new HttpError(409, `Existencias insuficientes de ${item.nombre} (hay ${item.existencias}).`);
+      throw new HttpError(
+        409,
+        `Existencias insuficientes de ${item.nombre} (hay ${item.existencias}).`,
+      );
     }
   }
 
   const itemsHistorial = usados.map((u) => {
     const item = buscar(db.items, u.itemId, 'Ítem');
-    item.existencias = aplicarMovimiento(item.existencias, { tipo: 'salida', cantidad: u.cantidad });
+    item.existencias = aplicarMovimiento(item.existencias, {
+      tipo: 'salida',
+      cantidad: u.cantidad,
+    });
     db.movimientos.push({
       id: nextId(db, 'mov'),
       itemId: item.id,
@@ -325,7 +352,12 @@ export function cerrarCaso(db: Db, id: string, usuario: Usuario, trabajo: Trabaj
       equipoId: equipo.id,
       nota: `Entregado en ${caso.consecutivo}`,
     });
-    return { itemId: item.id, nombre: item.nombre, cantidad: u.cantidad, costoUnitario: item.costoUnitario };
+    return {
+      itemId: item.id,
+      nombre: item.nombre,
+      cantidad: u.cantidad,
+      costoUnitario: item.costoUnitario,
+    };
   });
 
   if (trabajo.contador !== undefined) {
@@ -360,7 +392,12 @@ export function cerrarCaso(db: Db, id: string, usuario: Usuario, trabajo: Trabaj
 
 /* ------------------------------ Inventario ------------------------------ */
 
-export function registrarMovimiento(db: Db, input: MovimientoInput, usuario: Usuario, now: Date): Movimiento {
+export function registrarMovimiento(
+  db: Db,
+  input: MovimientoInput,
+  usuario: Usuario,
+  now: Date,
+): Movimiento {
   const item = buscar(db.items, input.itemId, 'Ítem');
   let nuevas: number;
   try {
@@ -415,7 +452,9 @@ export function detalleTecnico(db: Db, tecnicoId: string, now: Date): TecnicoDet
     labores,
     casosAbiertos: casos.filter((c) => !['cerrado', 'rechazado'].includes(c.estado)).length,
     casosCerrados: casos.filter((c) => c.estado === 'cerrado').length,
-    promedioHorasAtencion: tiempos.length ? tiempos.reduce((a, b) => a + b, 0) / tiempos.length : null,
+    promedioHorasAtencion: tiempos.length
+      ? tiempos.reduce((a, b) => a + b, 0) / tiempos.length
+      : null,
   };
 }
 
@@ -548,5 +587,7 @@ export function calcularAlertas(db: Db, now: Date): Alerta[] {
       });
     }
   }
-  return alertas.sort((a, b) => (a.severidad === b.severidad ? 0 : a.severidad === 'alta' ? -1 : 1));
+  return alertas.sort((a, b) =>
+    a.severidad === b.severidad ? 0 : a.severidad === 'alta' ? -1 : 1,
+  );
 }

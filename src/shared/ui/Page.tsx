@@ -17,7 +17,10 @@ export function PageHeader({
     <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
         {backTo && (
-          <Link to={backTo} className="mb-1 inline-flex items-center gap-1 text-sm text-brand-600 hover:underline">
+          <Link
+            to={backTo}
+            className="mb-1 inline-flex items-center gap-1 text-sm text-brand-600 hover:underline"
+          >
             <ArrowLeft size={14} /> Volver
           </Link>
         )}
