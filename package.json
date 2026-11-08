@@ -1,0 +1,69 @@
+{
+  "name": "maki-trace-frontend",
+  "version": "0.1.0",
+  "description": "MAKI-TRACE: frontend del sistema de información web para la gestión de contratos de arriendo y posventa de equipos multifuncionales — Maki Import Group S.A.S.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "ci": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run build"
+  },
+  "author": "Samuel Mesa Comaz, Jonathan Barrera Fernández, Juan David Guarnizo Martínez",
+  "license": "UNLICENSED",
+  "type": "module",
+  "dependencies": {
+    "@hookform/resolvers": "^7.0.3",
+    "@tanstack/react-query": "^5.107.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
+    "html5-qrcode": "^2.3.8",
+    "lucide-react": "^1.70.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-hook-form": "^7.91.0",
+    "react-router": "^8.5.1",
+    "recharts": "^3.10.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.5",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.14.0",
+    "jsdom": "^31.0.0",
+    "msw": "^3.0.4",
+    "prettier": "^3.9.10",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}
