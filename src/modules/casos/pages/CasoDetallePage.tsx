@@ -58,7 +58,7 @@ export function CasoDetallePage() {
         </div>
       </Card>
       <div className="grid gap-4 lg:grid-cols-3">
-        <div className="space-y-4 lg:col-span-2">
+        <div className="min-w-0 space-y-4 lg:col-span-2">
           <Card title="Solicitud">
             <DescriptionList
               items={[
