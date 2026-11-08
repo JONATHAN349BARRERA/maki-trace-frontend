@@ -4,7 +4,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Pencil, Plus } from 'lucide-react';
 import { useAuth } from '@/modules/auth/AuthContext';
-import { Alert, Button, Card, ErrorState, Input, Loading, Modal, PageHeader, Select, Table } from '@/shared/ui';
+import {
+  Alert,
+  Button,
+  Card,
+  ErrorState,
+  Input,
+  Loading,
+  Modal,
+  PageHeader,
+  Select,
+  Table,
+} from '@/shared/ui';
 import { useClientes, useGuardarCliente } from '../api';
 import { TIPO_CLIENTE_LABEL, type Cliente } from '../types';
 
@@ -26,7 +37,10 @@ function ClienteForm({ cliente, onDone }: { cliente?: Cliente; onDone: () => voi
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Form>({ resolver: zodResolver(schema), defaultValues: cliente ?? { tipo: 'empresa' } });
+  } = useForm<Form>({
+    resolver: zodResolver(schema),
+    defaultValues: cliente ?? { tipo: 'empresa' },
+  });
   return (
     <form
       noValidate
@@ -37,7 +51,11 @@ function ClienteForm({ cliente, onDone }: { cliente?: Cliente; onDone: () => voi
       className="space-y-3"
     >
       {guardar.error && <Alert tone="danger">{guardar.error.message}</Alert>}
-      <Input label="Razón social" error={errors.razonSocial?.message} {...register('razonSocial')} />
+      <Input
+        label="Razón social"
+        error={errors.razonSocial?.message}
+        {...register('razonSocial')}
+      />
       <div className="grid grid-cols-2 gap-3">
         <Input label="NIT" error={errors.nit?.message} {...register('nit')} />
         <Select
@@ -91,7 +109,10 @@ export function ClientesPage() {
             rows={data ?? []}
             rowKey={(c) => c.id}
             columns={[
-              { header: 'Razón social', cell: (c) => <span className="font-medium">{c.razonSocial}</span> },
+              {
+                header: 'Razón social',
+                cell: (c) => <span className="font-medium">{c.razonSocial}</span>,
+              },
               { header: 'NIT', cell: (c) => c.nit },
               { header: 'Tipo', cell: (c) => TIPO_CLIENTE_LABEL[c.tipo] },
               { header: 'Contacto', cell: (c) => `${c.contacto} · ${c.telefono}` },
@@ -100,7 +121,12 @@ export function ClientesPage() {
                 header: '',
                 cell: (c) =>
                   puede('clientes:editar') && (
-                    <Button size="sm" variant="ghost" onClick={() => setEditando(c)} aria-label={`Editar ${c.razonSocial}`}>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setEditando(c)}
+                      aria-label={`Editar ${c.razonSocial}`}
+                    >
                       <Pencil size={14} />
                     </Button>
                   ),
@@ -109,9 +135,16 @@ export function ClientesPage() {
           />
         )}
       </Card>
-      <Modal open={editando !== null} title={editando === 'nuevo' ? 'Nuevo cliente' : 'Editar cliente'} onClose={() => setEditando(null)}>
+      <Modal
+        open={editando !== null}
+        title={editando === 'nuevo' ? 'Nuevo cliente' : 'Editar cliente'}
+        onClose={() => setEditando(null)}
+      >
         {editando !== null && (
-          <ClienteForm cliente={editando === 'nuevo' ? undefined : editando} onDone={() => setEditando(null)} />
+          <ClienteForm
+            cliente={editando === 'nuevo' ? undefined : editando}
+            onDone={() => setEditando(null)}
+          />
         )}
       </Modal>
     </>

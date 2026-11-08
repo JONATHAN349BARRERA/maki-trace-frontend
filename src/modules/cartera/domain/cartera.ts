@@ -1,7 +1,10 @@
 import { daysBetween } from '@/shared/lib/dates';
 import type { EstadoFactura, Factura } from '../types';
 
-export function estadoFactura(f: Pick<Factura, 'estado' | 'fechaVencimiento'>, now: Date = new Date()): {
+export function estadoFactura(
+  f: Pick<Factura, 'estado' | 'fechaVencimiento'>,
+  now: Date = new Date(),
+): {
   estado: EstadoFactura;
   diasMora: number;
 } {

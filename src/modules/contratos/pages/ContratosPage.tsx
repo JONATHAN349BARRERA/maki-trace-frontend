@@ -44,7 +44,12 @@ export function ContratosPage() {
       />
       <Card>
         <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <Input label="Buscar" placeholder="Número o cliente" value={texto} onChange={(e) => setTexto(e.target.value)} />
+          <Input
+            label="Buscar"
+            placeholder="Número o cliente"
+            value={texto}
+            onChange={(e) => setTexto(e.target.value)}
+          />
           <Select
             label="Vigencia"
             placeholder="Todas"
@@ -76,18 +81,31 @@ export function ContratosPage() {
               {
                 header: 'Número',
                 cell: (c) => (
-                  <Link to={`/contratos/${c.id}`} className="font-medium text-brand-600 hover:underline">
+                  <Link
+                    to={`/contratos/${c.id}`}
+                    className="font-medium text-brand-600 hover:underline"
+                  >
                     {c.numero}
                   </Link>
                 ),
               },
               { header: 'Cliente', cell: (c) => c.clienteNombre },
-              { header: 'Modalidad', cell: (c) => (c.modalidad === 'arriendo' ? 'Arriendo' : 'Posventa') },
-              { header: 'Vigencia', cell: (c) => `${formatDate(c.fechaInicio)} – ${formatDate(c.fechaFin)}` },
-              { header: 'Estado', cell: (c) => <VigenciaBadge estado={c.vigencia} dias={c.diasRestantes} /> },
+              {
+                header: 'Modalidad',
+                cell: (c) => (c.modalidad === 'arriendo' ? 'Arriendo' : 'Posventa'),
+              },
+              {
+                header: 'Vigencia',
+                cell: (c) => `${formatDate(c.fechaInicio)} – ${formatDate(c.fechaFin)}`,
+              },
+              {
+                header: 'Estado',
+                cell: (c) => <VigenciaBadge estado={c.vigencia} dias={c.diasRestantes} />,
+              },
               {
                 header: 'Valor',
-                cell: (c) => `${formatCOP(c.valor)}${c.modalidad === 'arriendo' ? ' /mes por equipo' : ''}`,
+                cell: (c) =>
+                  `${formatCOP(c.valor)}${c.modalidad === 'arriendo' ? ' /mes por equipo' : ''}`,
               },
               { header: 'Equipos', cell: (c) => c.equipos },
               {

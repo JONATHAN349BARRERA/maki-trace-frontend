@@ -7,7 +7,10 @@ export const contadorActual = (lecturas: LecturaContador[]) =>
 
 export type EstadoGarantia = 'vigente' | 'por_vencer' | 'vencida';
 
-export function estadoGarantia(e: Pick<Equipo, 'garantiaHasta'>, now: Date = new Date()): EstadoGarantia {
+export function estadoGarantia(
+  e: Pick<Equipo, 'garantiaHasta'>,
+  now: Date = new Date(),
+): EstadoGarantia {
   const dias = daysBetween(now.toISOString(), `${e.garantiaHasta}T23:59:59`);
   if (dias < 0) return 'vencida';
   if (dias <= DIAS_ALERTA_VENCIMIENTO) return 'por_vencer';
@@ -17,7 +20,8 @@ export function estadoGarantia(e: Pick<Equipo, 'garantiaHasta'>, now: Date = new
 /** Ruta pública que codifica el QR pegado al equipo (asociado a su serial). */
 export const rutaQR = (serial: string) => `/equipos/serial/${encodeURIComponent(serial)}`;
 
-export const urlQR = (serial: string, origin: string = window.location.origin) => `${origin}${rutaQR(serial)}`;
+export const urlQR = (serial: string, origin: string = window.location.origin) =>
+  `${origin}${rutaQR(serial)}`;
 
 /** Extrae el serial de lo leído por la cámara: acepta la URL del QR o el serial directo. */
 export function serialDesdeQR(texto: string): string | null {

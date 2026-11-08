@@ -4,7 +4,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, useParams } from 'react-router';
 import { useClientes } from '@/modules/clientes/api';
-import { Alert, Button, Card, Checkbox, Input, Loading, PageHeader, Select, Textarea } from '@/shared/ui';
+import {
+  Alert,
+  Button,
+  Card,
+  Checkbox,
+  Input,
+  Loading,
+  PageHeader,
+  Select,
+  Textarea,
+} from '@/shared/ui';
 import { useContrato, useGuardarContrato } from '../api';
 import { COMPONENTE_LABEL, COMPONENTES, type Componente } from '../types';
 
@@ -16,10 +26,15 @@ export const contratoSchema = z
     fechaInicio: z.string().min(1, 'Fecha requerida'),
     fechaFin: z.string().min(1, 'Fecha requerida'),
     valor: z.coerce.number<number>().positive('El valor debe ser mayor que cero'),
-    componentes: z.array(z.enum(['preventivo', 'correctivo', 'repuestos', 'suministros'])).min(1, 'Seleccione al menos un componente'),
+    componentes: z
+      .array(z.enum(['preventivo', 'correctivo', 'repuestos', 'suministros']))
+      .min(1, 'Seleccione al menos un componente'),
     observaciones: z.string().optional(),
   })
-  .refine((d) => d.fechaFin >= d.fechaInicio, { path: ['fechaFin'], message: 'Debe ser posterior al inicio' });
+  .refine((d) => d.fechaFin >= d.fechaInicio, {
+    path: ['fechaFin'],
+    message: 'Debe ser posterior al inicio',
+  });
 
 type Form = z.infer<typeof contratoSchema>;
 
@@ -37,13 +52,39 @@ export function ContratoFormPage() {
     formState: { errors },
   } = useForm<Form>({
     resolver: zodResolver(contratoSchema),
-    defaultValues: { modalidad: 'arriendo', componentes: [...COMPONENTES], numero: '', clienteId: '', fechaInicio: '', fechaFin: '', observaciones: '' },
+    defaultValues: {
+      modalidad: 'arriendo',
+      componentes: [...COMPONENTES],
+      numero: '',
+      clienteId: '',
+      fechaInicio: '',
+      fechaFin: '',
+      observaciones: '',
+    },
   });
 
   useEffect(() => {
     if (id && existente.data) {
-      const { numero, clienteId, modalidad, fechaInicio, fechaFin, valor, componentes, observaciones } = existente.data;
-      reset({ numero, clienteId, modalidad, fechaInicio, fechaFin, valor, componentes, observaciones });
+      const {
+        numero,
+        clienteId,
+        modalidad,
+        fechaInicio,
+        fechaFin,
+        valor,
+        componentes,
+        observaciones,
+      } = existente.data;
+      reset({
+        numero,
+        clienteId,
+        modalidad,
+        fechaInicio,
+        fechaFin,
+        valor,
+        componentes,
+        observaciones,
+      });
     }
   }, [id, existente.data, reset]);
 
@@ -56,7 +97,10 @@ export function ContratoFormPage() {
 
   return (
     <>
-      <PageHeader backTo={id ? `/contratos/${id}` : '/contratos'} title={id ? 'Editar contrato' : 'Nuevo contrato'} />
+      <PageHeader
+        backTo={id ? `/contratos/${id}` : '/contratos'}
+        title={id ? 'Editar contrato' : 'Nuevo contrato'}
+      />
       <Card>
         <form onSubmit={onSubmit} noValidate className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {guardar.error && (
@@ -64,7 +108,12 @@ export function ContratoFormPage() {
               <Alert tone="danger">{guardar.error.message}</Alert>
             </div>
           )}
-          <Input label="Número de contrato" placeholder="ARR-2026-007" error={errors.numero?.message} {...register('numero')} />
+          <Input
+            label="Número de contrato"
+            placeholder="ARR-2026-007"
+            error={errors.numero?.message}
+            {...register('numero')}
+          />
           <Select
             label="Cliente"
             placeholder="Seleccione…"
@@ -80,11 +129,30 @@ export function ContratoFormPage() {
             ]}
             {...register('modalidad')}
           />
-          <Input label="Valor (COP)" type="number" min={0} hint="Arriendo: cuota mensual por equipo" error={errors.valor?.message} {...register('valor')} />
-          <Input label="Fecha de inicio" type="date" error={errors.fechaInicio?.message} {...register('fechaInicio')} />
-          <Input label="Fecha de fin" type="date" error={errors.fechaFin?.message} {...register('fechaFin')} />
+          <Input
+            label="Valor (COP)"
+            type="number"
+            min={0}
+            hint="Arriendo: cuota mensual por equipo"
+            error={errors.valor?.message}
+            {...register('valor')}
+          />
+          <Input
+            label="Fecha de inicio"
+            type="date"
+            error={errors.fechaInicio?.message}
+            {...register('fechaInicio')}
+          />
+          <Input
+            label="Fecha de fin"
+            type="date"
+            error={errors.fechaFin?.message}
+            {...register('fechaFin')}
+          />
           <fieldset className="sm:col-span-2">
-            <legend className="mb-2 text-sm font-medium text-slate-700">Componentes incluidos</legend>
+            <legend className="mb-2 text-sm font-medium text-slate-700">
+              Componentes incluidos
+            </legend>
             <Controller
               control={control}
               name="componentes"
@@ -97,7 +165,9 @@ export function ContratoFormPage() {
                       checked={field.value.includes(c)}
                       onChange={(e) =>
                         field.onChange(
-                          e.target.checked ? [...field.value, c] : field.value.filter((x: Componente) => x !== c),
+                          e.target.checked
+                            ? [...field.value, c]
+                            : field.value.filter((x: Componente) => x !== c),
                         )
                       }
                     />
@@ -105,9 +175,15 @@ export function ContratoFormPage() {
                 </div>
               )}
             />
-            {errors.componentes && <p className="mt-1 text-xs text-red-600">{errors.componentes.message}</p>}
+            {errors.componentes && (
+              <p className="mt-1 text-xs text-red-600">{errors.componentes.message}</p>
+            )}
           </fieldset>
-          <Textarea label="Observaciones" className="sm:col-span-2" {...register('observaciones')} />
+          <Textarea
+            label="Observaciones"
+            className="sm:col-span-2"
+            {...register('observaciones')}
+          />
           <div className="flex justify-end gap-2 sm:col-span-2">
             <Button variant="secondary" onClick={() => navigate(-1)}>
               Cancelar

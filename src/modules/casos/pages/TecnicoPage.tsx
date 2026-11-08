@@ -28,9 +28,13 @@ export function TecnicoPage() {
           </Link>
         }
       />
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">Pendientes ({pendientes.length})</h2>
+      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Pendientes ({pendientes.length})
+      </h2>
       <div className="mb-6 space-y-3">
-        {pendientes.length === 0 && <p className="text-sm text-slate-500">No tiene casos pendientes.</p>}
+        {pendientes.length === 0 && (
+          <p className="text-sm text-slate-500">No tiene casos pendientes.</p>
+        )}
         {pendientes.map((c) => (
           <Link key={c.id} to={`/casos/${c.id}`} className="block">
             <Card className="transition hover:ring-brand-500">
@@ -46,13 +50,19 @@ export function TecnicoPage() {
               <p className="mt-2 flex items-center gap-1 text-sm text-slate-600">
                 <MapPin size={14} /> {c.equipoUbicacion}
               </p>
-              {c.fechaProgramada && <p className="text-xs text-slate-500">Programado: {formatDateTime(c.fechaProgramada)}</p>}
+              {c.fechaProgramada && (
+                <p className="text-xs text-slate-500">
+                  Programado: {formatDateTime(c.fechaProgramada)}
+                </p>
+              )}
               <p className="mt-1 text-sm text-slate-700">{c.descripcion}</p>
             </Card>
           </Link>
         ))}
       </div>
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">Últimos cerrados</h2>
+      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Últimos cerrados
+      </h2>
       <ul className="space-y-1 text-sm">
         {cerrados.map((c) => (
           <li key={c.id}>

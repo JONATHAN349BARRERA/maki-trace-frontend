@@ -32,12 +32,21 @@ export function Modal({
       >
         <header className="flex items-center justify-between border-b border-slate-200 px-5 py-3">
           <h2 className="font-semibold text-slate-800">{title}</h2>
-          <button type="button" onClick={onClose} aria-label="Cerrar" className="rounded p-1 text-slate-500 hover:bg-slate-100">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Cerrar"
+            className="rounded p-1 text-slate-500 hover:bg-slate-100"
+          >
             <X size={18} />
           </button>
         </header>
         <div className="space-y-3 px-5 py-4">{children}</div>
-        {footer && <footer className="flex justify-end gap-2 border-t border-slate-200 px-5 py-3">{footer}</footer>}
+        {footer && (
+          <footer className="flex justify-end gap-2 border-t border-slate-200 px-5 py-3">
+            {footer}
+          </footer>
+        )}
       </div>
     </div>
   );

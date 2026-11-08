@@ -35,7 +35,11 @@ export function PortalClientePage() {
       <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         <StatCard label="Contratos" value={contratos.data?.length ?? 0} />
         <StatCard label="Equipos" value={equipos.data?.length ?? 0} />
-        <StatCard label="Solicitudes abiertas" value={abiertos.length} tone={abiertos.length ? 'warning' : 'default'} />
+        <StatCard
+          label="Solicitudes abiertas"
+          value={abiertos.length}
+          tone={abiertos.length ? 'warning' : 'default'}
+        />
       </div>
       <Card title="Solicitudes en curso" className="mb-4">
         <CasosTable casos={abiertos} mostrarCliente={false} />
@@ -52,7 +56,8 @@ export function PortalClientePage() {
             actions={<VigenciaBadge estado={c.vigencia} dias={c.diasRestantes} />}
           >
             <p className="mb-3 text-sm text-slate-600">
-              {c.modalidad === 'arriendo' ? 'Arriendo' : 'Posventa'} · {formatDate(c.fechaInicio)} – {formatDate(c.fechaFin)} · {c.equipos} equipo(s)
+              {c.modalidad === 'arriendo' ? 'Arriendo' : 'Posventa'} · {formatDate(c.fechaInicio)} –{' '}
+              {formatDate(c.fechaFin)} · {c.equipos} equipo(s)
             </p>
             <ComponentesList componentes={c.componentes} />
           </Card>

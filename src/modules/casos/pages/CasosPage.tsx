@@ -2,7 +2,16 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { Plus } from 'lucide-react';
 import { useAuth } from '@/modules/auth/AuthContext';
-import { Button, Card, Checkbox, ErrorState, Input, Loading, PageHeader, Select } from '@/shared/ui';
+import {
+  Button,
+  Card,
+  Checkbox,
+  ErrorState,
+  Input,
+  Loading,
+  PageHeader,
+  Select,
+} from '@/shared/ui';
 import { useCasos } from '../api';
 import { CasosTable } from '../components/CasosTable';
 import { ESTADO_CASO_LABEL, TIPO_CASO_LABEL, type EstadoCaso } from '../types';
@@ -21,7 +30,9 @@ export function CasosPage() {
         (c) =>
           (!tipo || c.tipo === tipo) &&
           (!soloDemorados || c.demorado) &&
-          `${c.consecutivo} ${c.clienteNombre} ${c.equipoSerial}`.toLowerCase().includes(texto.toLowerCase()),
+          `${c.consecutivo} ${c.clienteNombre} ${c.equipoSerial}`
+            .toLowerCase()
+            .includes(texto.toLowerCase()),
       ),
     [data, tipo, soloDemorados, texto],
   );
@@ -43,7 +54,12 @@ export function CasosPage() {
       />
       <Card>
         <div className="mb-4 grid grid-cols-1 items-end gap-3 sm:grid-cols-4">
-          <Input label="Buscar" placeholder="Consecutivo, cliente o serial" value={texto} onChange={(e) => setTexto(e.target.value)} />
+          <Input
+            label="Buscar"
+            placeholder="Consecutivo, cliente o serial"
+            value={texto}
+            onChange={(e) => setTexto(e.target.value)}
+          />
           <Select
             label="Estado"
             placeholder="Todos"
@@ -58,9 +74,19 @@ export function CasosPage() {
             onChange={(e) => setTipo(e.target.value)}
             options={Object.entries(TIPO_CASO_LABEL).map(([value, label]) => ({ value, label }))}
           />
-          <Checkbox label="Solo demorados" checked={soloDemorados} onChange={(e) => setSoloDemorados(e.target.checked)} />
+          <Checkbox
+            label="Solo demorados"
+            checked={soloDemorados}
+            onChange={(e) => setSoloDemorados(e.target.checked)}
+          />
         </div>
-        {isLoading ? <Loading /> : error ? <ErrorState error={error} /> : <CasosTable casos={filas} mostrarCliente={usuario?.rol !== 'cliente'} />}
+        {isLoading ? (
+          <Loading />
+        ) : error ? (
+          <ErrorState error={error} />
+        ) : (
+          <CasosTable casos={filas} mostrarCliente={usuario?.rol !== 'cliente'} />
+        )}
       </Card>
     </>
   );

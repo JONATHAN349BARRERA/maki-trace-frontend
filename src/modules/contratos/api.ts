@@ -9,7 +9,8 @@ export const contratosApi = {
   actualizar: (id: string, c: ContratoInput) => http.put<ContratoResumen>(`/contratos/${id}`, c),
 };
 
-export const useContratos = () => useQuery({ queryKey: ['contratos'], queryFn: contratosApi.listar });
+export const useContratos = () =>
+  useQuery({ queryKey: ['contratos'], queryFn: contratosApi.listar });
 export const useContrato = (id: string) =>
   useQuery({ queryKey: ['contratos', id], queryFn: () => contratosApi.obtener(id) });
 

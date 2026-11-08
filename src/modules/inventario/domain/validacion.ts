@@ -34,7 +34,11 @@ export function analizarConsumo(
   const copias = Math.max(0, actual - base);
 
   if (!item.rendimientoCopias) {
-    return { anomalo: false, copiasDesdeUltimaEntrega: copias, unidadesJustificadas: cantidadSolicitada };
+    return {
+      anomalo: false,
+      copiasDesdeUltimaEntrega: copias,
+      unidadesJustificadas: cantidadSolicitada,
+    };
   }
   const justificadas = Math.ceil(copias / item.rendimientoCopias) + HOLGURA_UNIDADES;
   const anomalo = cantidadSolicitada > justificadas;

@@ -14,7 +14,9 @@ export function RequireAuth({ permiso, children }: { permiso?: Permiso; children
     return (
       <div className="p-8 text-center">
         <h1 className="text-lg font-semibold text-slate-800">Acceso restringido</h1>
-        <p className="mt-1 text-sm text-slate-500">Su rol no tiene permiso para ver esta sección.</p>
+        <p className="mt-1 text-sm text-slate-500">
+          Su rol no tiene permiso para ver esta sección.
+        </p>
       </div>
     );
   }

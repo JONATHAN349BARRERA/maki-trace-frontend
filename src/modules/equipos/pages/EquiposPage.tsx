@@ -15,7 +15,9 @@ export function EquiposPage() {
   const filas = useMemo(
     () =>
       (data ?? []).filter((e) =>
-        `${e.serial} ${e.modelo} ${e.clienteNombre ?? ''} ${e.ubicacion}`.toLowerCase().includes(texto.toLowerCase()),
+        `${e.serial} ${e.modelo} ${e.clienteNombre ?? ''} ${e.ubicacion}`
+          .toLowerCase()
+          .includes(texto.toLowerCase()),
       ),
     [data, texto],
   );
@@ -35,7 +37,13 @@ export function EquiposPage() {
         }
       />
       <Card>
-        <Input label="Buscar" placeholder="Serial, modelo, cliente o ubicación" value={texto} onChange={(e) => setTexto(e.target.value)} className="mb-4 sm:max-w-sm" />
+        <Input
+          label="Buscar"
+          placeholder="Serial, modelo, cliente o ubicación"
+          value={texto}
+          onChange={(e) => setTexto(e.target.value)}
+          className="mb-4 sm:max-w-sm"
+        />
         {isLoading ? (
           <Loading />
         ) : error ? (
@@ -49,21 +57,35 @@ export function EquiposPage() {
               {
                 header: 'Serial',
                 cell: (e) => (
-                  <Link to={`/equipos/${e.id}`} className="font-medium text-brand-600 hover:underline">
+                  <Link
+                    to={`/equipos/${e.id}`}
+                    className="font-medium text-brand-600 hover:underline"
+                  >
                     {e.serial}
                   </Link>
                 ),
               },
               { header: 'Modelo', cell: (e) => `${e.marca} ${e.modelo}` },
-              { header: 'Cliente', cell: (e) => e.clienteNombre ?? <span className="text-slate-400">Sin asignar</span> },
+              {
+                header: 'Cliente',
+                cell: (e) => e.clienteNombre ?? <span className="text-slate-400">Sin asignar</span>,
+              },
               { header: 'Contrato', cell: (e) => e.contratoNumero ?? '—' },
-              { header: 'Ubicación', cell: (e) => e.ubicacion, className: 'px-4 py-2 text-slate-700' },
+              {
+                header: 'Ubicación',
+                cell: (e) => e.ubicacion,
+                className: 'px-4 py-2 text-slate-700',
+              },
               { header: 'Contador', cell: (e) => formatNumber(e.contadorActual) },
               {
                 header: 'Garantía',
                 cell: (e) => {
                   const g = estadoGarantia(e);
-                  return <Badge tone={g === 'vigente' ? 'green' : g === 'por_vencer' ? 'amber' : 'gray'}>{g === 'vigente' ? 'Vigente' : g === 'por_vencer' ? 'Por vencer' : 'Vencida'}</Badge>;
+                  return (
+                    <Badge tone={g === 'vigente' ? 'green' : g === 'por_vencer' ? 'amber' : 'gray'}>
+                      {g === 'vigente' ? 'Vigente' : g === 'por_vencer' ? 'Por vencer' : 'Vencida'}
+                    </Badge>
+                  );
                 },
               },
               { header: 'Casos abiertos', cell: (e) => e.casosAbiertos },

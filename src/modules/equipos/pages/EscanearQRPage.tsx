@@ -53,13 +53,27 @@ export function EscanearQRPage() {
       <PageHeader title="Escanear equipo" subtitle="Lea el código QR pegado en el multifuncional" />
       <div className="mx-auto max-w-md space-y-4">
         <Card>
-          <div id="lector-qr" className="overflow-hidden rounded-lg bg-slate-900" style={{ minHeight: activo ? 280 : 0 }} />
+          <div
+            id="lector-qr"
+            className="overflow-hidden rounded-lg bg-slate-900"
+            style={{ minHeight: activo ? 280 : 0 }}
+          />
           {!activo && (
-            <Button className="w-full" onClick={() => { setError(null); setActivo(true); }}>
+            <Button
+              className="w-full"
+              onClick={() => {
+                setError(null);
+                setActivo(true);
+              }}
+            >
               <Camera size={16} /> Activar cámara
             </Button>
           )}
-          {error && <div className="mt-3"><Alert tone="warning">{error}</Alert></div>}
+          {error && (
+            <div className="mt-3">
+              <Alert tone="warning">{error}</Alert>
+            </div>
+          )}
         </Card>
         <Card title="O digite el serial">
           <form
@@ -71,7 +85,12 @@ export function EscanearQRPage() {
               else setError('Serial inválido.');
             }}
           >
-            <Input label="Serial" value={serial} onChange={(e) => setSerial(e.target.value.toUpperCase())} className="flex-1" />
+            <Input
+              label="Serial"
+              value={serial}
+              onChange={(e) => setSerial(e.target.value.toUpperCase())}
+              className="flex-1"
+            />
             <Button type="submit">Buscar</Button>
           </form>
         </Card>

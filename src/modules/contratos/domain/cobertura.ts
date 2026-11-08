@@ -34,7 +34,11 @@ export function verificarCobertura(
     return { cubierto: false, componente, motivo: `El contrato ${contrato.numero} está vencido.` };
   }
   if (estado === 'no_iniciado') {
-    return { cubierto: false, componente, motivo: `El contrato ${contrato.numero} aún no ha iniciado.` };
+    return {
+      cubierto: false,
+      componente,
+      motivo: `El contrato ${contrato.numero} aún no ha iniciado.`,
+    };
   }
   if (!contrato.componentes.includes(componente)) {
     return {

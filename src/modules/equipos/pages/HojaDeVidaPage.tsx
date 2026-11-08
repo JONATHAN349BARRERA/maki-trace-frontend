@@ -7,7 +7,18 @@ import { CasosTable } from '@/modules/casos/components/CasosTable';
 import { ESTADOS_ABIERTOS } from '@/modules/casos/domain/flujo';
 import { useItems } from '@/modules/inventario/api';
 import { formatDate, formatDateTime, formatNumber } from '@/shared/lib/format';
-import { Alert, Badge, Button, Card, DescriptionList, ErrorState, Input, Loading, PageHeader, Table } from '@/shared/ui';
+import {
+  Alert,
+  Badge,
+  Button,
+  Card,
+  DescriptionList,
+  ErrorState,
+  Input,
+  Loading,
+  PageHeader,
+  Table,
+} from '@/shared/ui';
 import { useEquipo, useRegistrarLectura } from '../api';
 import { EquipoQR } from '../components/EquipoQR';
 import { FotosEquipo } from '../components/FotosEquipo';
@@ -26,7 +37,14 @@ function LecturaForm({ equipo }: { equipo: EquipoResumen }) {
         registrar.mutate(Number(valor), { onSuccess: () => setValor('') });
       }}
     >
-      <Input label="Nueva lectura" type="number" min={equipo.contadorActual} value={valor} onChange={(e) => setValor(e.target.value)} className="flex-1" />
+      <Input
+        label="Nueva lectura"
+        type="number"
+        min={equipo.contadorActual}
+        value={valor}
+        onChange={(e) => setValor(e.target.value)}
+        className="flex-1"
+      />
       <Button type="submit" size="sm" disabled={!valor || registrar.isPending}>
         Registrar
       </Button>
@@ -43,7 +61,9 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
   const garantia = estadoGarantia(equipo);
   const verCostos = usuario?.rol === 'gerente' || usuario?.rol === 'gestor';
   const pendientes = (casos.data ?? []).filter((c) => ESTADOS_ABIERTOS.includes(c.estado));
-  const ultimoMant = [...equipo.historial].filter((h) => h.tipo === 'Mantenimiento').sort((a, b) => b.fecha.localeCompare(a.fecha))[0];
+  const ultimoMant = [...equipo.historial]
+    .filter((h) => h.tipo === 'Mantenimiento')
+    .sort((a, b) => b.fecha.localeCompare(a.fecha))[0];
 
   return (
     <>
@@ -54,7 +74,9 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
         actions={
           <>
             {puede('casos:crear') && (
-              <Link to={`${usuario?.rol === 'cliente' ? '/portal/solicitud' : '/casos/nuevo'}?equipoId=${equipo.id}`}>
+              <Link
+                to={`${usuario?.rol === 'cliente' ? '/portal/solicitud' : '/casos/nuevo'}?equipoId=${equipo.id}`}
+              >
                 <Button variant="secondary">
                   <Send size={16} /> Solicitar servicio
                 </Button>
@@ -74,7 +96,9 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
       <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Card>
           <p className="text-xs uppercase text-slate-500">Último mantenimiento</p>
-          <p className="mt-1 text-sm font-semibold">{ultimoMant ? formatDate(ultimoMant.fecha) : 'Sin registro'}</p>
+          <p className="mt-1 text-sm font-semibold">
+            {ultimoMant ? formatDate(ultimoMant.fecha) : 'Sin registro'}
+          </p>
         </Card>
         <Card>
           <p className="text-xs uppercase text-slate-500">Casos pendientes</p>
@@ -87,8 +111,15 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
         <Card>
           <p className="text-xs uppercase text-slate-500">Garantía</p>
           <p className="mt-1">
-            <Badge tone={garantia === 'vigente' ? 'green' : garantia === 'por_vencer' ? 'amber' : 'gray'}>
-              {garantia === 'vigente' ? 'Vigente' : garantia === 'por_vencer' ? 'Por vencer' : 'Vencida'} · {formatDate(equipo.garantiaHasta)}
+            <Badge
+              tone={garantia === 'vigente' ? 'green' : garantia === 'por_vencer' ? 'amber' : 'gray'}
+            >
+              {garantia === 'vigente'
+                ? 'Vigente'
+                : garantia === 'por_vencer'
+                  ? 'Por vencer'
+                  : 'Vencida'}{' '}
+              · {formatDate(equipo.garantiaHasta)}
             </Badge>
           </p>
         </Card>
@@ -102,7 +133,10 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
                 {
                   label: 'Contrato asociado',
                   value: equipo.contratoId ? (
-                    <Link className="text-brand-600 hover:underline" to={`/contratos/${equipo.contratoId}`}>
+                    <Link
+                      className="text-brand-600 hover:underline"
+                      to={`/contratos/${equipo.contratoId}`}
+                    >
                       {equipo.contratoNumero}
                     </Link>
                   ) : (
@@ -113,7 +147,10 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
                 { label: 'Instalación', value: formatDate(equipo.fechaInstalacion) },
                 { label: 'Velocidad', value: `${equipo.capacidades.ppm} ppm` },
                 { label: 'Color', value: equipo.capacidades.color ? 'Sí' : 'No (monocromático)' },
-                { label: 'Dúplex / escáner', value: `${equipo.capacidades.duplex ? 'Dúplex' : 'Simplex'} · ${equipo.capacidades.escaner ? 'Con escáner' : 'Sin escáner'}` },
+                {
+                  label: 'Dúplex / escáner',
+                  value: `${equipo.capacidades.duplex ? 'Dúplex' : 'Simplex'} · ${equipo.capacidades.escaner ? 'Con escáner' : 'Sin escáner'}`,
+                },
                 { label: 'Formatos', value: equipo.capacidades.formatos.join(', ') },
               ]}
             />
@@ -130,7 +167,11 @@ export function HojaDeVida({ equipo }: { equipo: EquipoResumen }) {
             <EquipoQR serial={equipo.serial} modelo={equipo.modelo} />
           </Card>
           <Card title="Fotos">
-            <FotosEquipo equipoId={equipo.id} fotos={equipo.fotos} editable={usuario?.rol !== 'cliente'} />
+            <FotosEquipo
+              equipoId={equipo.id}
+              fotos={equipo.fotos}
+              editable={usuario?.rol !== 'cliente'}
+            />
           </Card>
           <Card title="Repuestos y suministros que usa">
             <ul className="space-y-1 text-sm">

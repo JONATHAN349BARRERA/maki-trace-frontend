@@ -28,17 +28,29 @@ export function AlertasBell() {
         <div className="absolute right-0 z-40 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-xl bg-white shadow-xl ring-1 ring-slate-200">
           <div className="flex items-center justify-between border-b border-slate-100 px-4 py-2">
             <p className="text-sm font-semibold text-slate-800">Alertas</p>
-            <Link to="/alertas" onClick={() => setAbierto(false)} className="text-xs text-brand-600 hover:underline">
+            <Link
+              to="/alertas"
+              onClick={() => setAbierto(false)}
+              className="text-xs text-brand-600 hover:underline"
+            >
               Ver todas
             </Link>
           </div>
           <ul className="max-h-80 divide-y divide-slate-100 overflow-y-auto">
-            {data.length === 0 && <li className="px-4 py-3 text-sm text-slate-500">Sin alertas.</li>}
+            {data.length === 0 && (
+              <li className="px-4 py-3 text-sm text-slate-500">Sin alertas.</li>
+            )}
             {data.slice(0, 8).map((a) => (
               <li key={a.id}>
-                <Link to={a.enlace} onClick={() => setAbierto(false)} className="block px-4 py-2 hover:bg-slate-50">
+                <Link
+                  to={a.enlace}
+                  onClick={() => setAbierto(false)}
+                  className="block px-4 py-2 hover:bg-slate-50"
+                >
                   <p className="text-sm font-medium text-slate-800">
-                    <span className={`mr-1.5 inline-block h-2 w-2 rounded-full ${a.severidad === 'alta' ? 'bg-red-500' : 'bg-amber-400'}`} />
+                    <span
+                      className={`mr-1.5 inline-block h-2 w-2 rounded-full ${a.severidad === 'alta' ? 'bg-red-500' : 'bg-amber-400'}`}
+                    />
                     {a.titulo}
                   </p>
                   <p className="text-xs text-slate-500">{a.detalle}</p>

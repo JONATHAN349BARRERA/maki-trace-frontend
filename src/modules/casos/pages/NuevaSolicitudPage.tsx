@@ -28,7 +28,9 @@ export function NuevaSolicitudPage() {
   const equipo = equipos.data?.find((e) => e.id === equipoId);
   const catalogo = useItems(equipo?.modelo);
   const pideItems = tipo === 'repuesto' || tipo === 'suministro';
-  const opcionesItems = (catalogo.data ?? []).filter((i) => i.tipo === (tipo === 'repuesto' ? 'repuesto' : 'suministro'));
+  const opcionesItems = (catalogo.data ?? []).filter(
+    (i) => i.tipo === (tipo === 'repuesto' ? 'repuesto' : 'suministro'),
+  );
   const equiposConContrato = (equipos.data ?? []).filter((e) => e.contratoId);
 
   // Pre-validación: se informa al cliente si su contrato no cubre lo que solicita.
@@ -37,7 +39,11 @@ export function NuevaSolicitudPage() {
     let vigente = true;
     casosApi
       .prevalidar({ equipoId, tipo, descripcion: '', itemsSolicitados: pideItems ? items : [] })
-      .then((a) => vigente && setAvisos(a.filter((x) => x.codigo === 'sin_cobertura' || x.codigo === 'incompatible')))
+      .then(
+        (a) =>
+          vigente &&
+          setAvisos(a.filter((x) => x.codigo === 'sin_cobertura' || x.codigo === 'incompatible')),
+      )
       .catch(() => vigente && setAvisos([]));
     return () => {
       vigente = false;
@@ -46,15 +52,22 @@ export function NuevaSolicitudPage() {
 
   const crear = useAccionCaso(async () => {
     if (contador && equipo) await equiposApi.registrarLectura(equipo.id, Number(contador));
-    return casosApi.crear({ equipoId, tipo, descripcion, itemsSolicitados: pideItems ? items : [] });
+    return casosApi.crear({
+      equipoId,
+      tipo,
+      descripcion,
+      itemsSolicitados: pideItems ? items : [],
+    });
   });
 
   const enviar = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorForm(null);
     if (!equipoId) return setErrorForm('Seleccione el equipo.');
-    if (descripcion.trim().length < 5) return setErrorForm('Describa la solicitud (mínimo 5 caracteres).');
-    if (pideItems && items.length === 0) return setErrorForm('Agregue al menos un repuesto o suministro.');
+    if (descripcion.trim().length < 5)
+      return setErrorForm('Describa la solicitud (mínimo 5 caracteres).');
+    if (pideItems && items.length === 0)
+      return setErrorForm('Agregue al menos un repuesto o suministro.');
     crear.mutate(undefined, {
       onSuccess: (caso) => navigate(`/casos/${caso.id}`, { state: { creado: true } }),
     });
@@ -69,7 +82,9 @@ export function NuevaSolicitudPage() {
       />
       <Card>
         <form onSubmit={enviar} noValidate className="space-y-4">
-          {(errorForm || crear.error) && <Alert tone="danger">{errorForm ?? crear.error?.message}</Alert>}
+          {(errorForm || crear.error) && (
+            <Alert tone="danger">{errorForm ?? crear.error?.message}</Alert>
+          )}
           <Select
             label="Equipo"
             placeholder="Seleccione el equipo…"
@@ -130,7 +145,11 @@ export function NuevaSolicitudPage() {
                           type="checkbox"
                           checked={!!sel}
                           onChange={(e) =>
-                            setItems(e.target.checked ? [...items, { itemId: i.id, cantidad: 1 }] : items.filter((x) => x.itemId !== i.id))
+                            setItems(
+                              e.target.checked
+                                ? [...items, { itemId: i.id, cantidad: 1 }]
+                                : items.filter((x) => x.itemId !== i.id),
+                            )
                           }
                         />
                         {i.nombre}
@@ -142,7 +161,13 @@ export function NuevaSolicitudPage() {
                           aria-label={`Cantidad de ${i.nombre}`}
                           value={sel.cantidad}
                           onChange={(e) =>
-                            setItems(items.map((x) => (x.itemId === i.id ? { ...x, cantidad: Math.max(1, Number(e.target.value) || 1) } : x)))
+                            setItems(
+                              items.map((x) =>
+                                x.itemId === i.id
+                                  ? { ...x, cantidad: Math.max(1, Number(e.target.value) || 1) }
+                                  : x,
+                              ),
+                            )
                           }
                           className="w-20 rounded-lg px-2 py-1 text-sm ring-1 ring-slate-300"
                         />
@@ -150,7 +175,9 @@ export function NuevaSolicitudPage() {
                     </div>
                   );
                 })}
-                {opcionesItems.length === 0 && <p className="text-sm text-slate-500">No hay ítems compatibles registrados.</p>}
+                {opcionesItems.length === 0 && (
+                  <p className="text-sm text-slate-500">No hay ítems compatibles registrados.</p>
+                )}
               </div>
             </fieldset>
           )}

@@ -3,8 +3,15 @@ import { formatCOP, formatDate } from '@/shared/lib/format';
 import type { EventoHistorial } from '../types';
 
 /** Historial de servicios y repuestos: lo alimenta cada caso cerrado. */
-export function HistorialEquipo({ historial, verCostos }: { historial: EventoHistorial[]; verCostos: boolean }) {
-  if (historial.length === 0) return <p className="text-sm text-slate-500">Aún no hay servicios registrados.</p>;
+export function HistorialEquipo({
+  historial,
+  verCostos,
+}: {
+  historial: EventoHistorial[];
+  verCostos: boolean;
+}) {
+  if (historial.length === 0)
+    return <p className="text-sm text-slate-500">Aún no hay servicios registrados.</p>;
   const orden = [...historial].sort((a, b) => b.fecha.localeCompare(a.fecha));
   return (
     <ol className="space-y-3">
@@ -33,7 +40,9 @@ export function HistorialEquipo({ historial, verCostos }: { historial: EventoHis
               ))}
             </ul>
           )}
-          {verCostos && h.costo > 0 && <p className="mt-1 text-xs font-medium text-slate-700">Costo: {formatCOP(h.costo)}</p>}
+          {verCostos && h.costo > 0 && (
+            <p className="mt-1 text-xs font-medium text-slate-700">Costo: {formatCOP(h.costo)}</p>
+          )}
         </li>
       ))}
     </ol>
